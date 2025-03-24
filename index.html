@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Генератор Никнеймов</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Генератор Никнеймов</h2>
+
+      <!-- Переключение языка -->
+      <div class="language-switch">
+        <span id="langRu" class="lang-option">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_Russia.svg"
+            alt="RU"
+            class="flag"
+          />
+          Русский
+        </span>
+        <span id="langEn" class="lang-option">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
+            alt="EN"
+            class="flag"
+          />
+          English
+        </span>
+      </div>
+
+      <div id="mode1" class="mode active">
+        <input type="text" id="nameInput" placeholder="Введите своё имя" />
+        <button id="generateBtn">Сгенерировать никнейм</button>
+        <div id="generatedNickname" class="nickname"></div>
+      </div>
+
+      <div id="mode2" class="mode">
+        <button id="generateRandomBtn">Сгенерировать случайный никнейм</button>
+        <div id="generatedRandomNickname" class="nickname"></div>
+      </div>
+
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="modeSwitch" />
+          <span class="slider"></span>
+        </label>
+        <div id="modeDescription">
+          Режим 1: Добавление цифр и символов к имени.
+        </div>
+      </div>
+
+      <div id="copyNotification">Никнейм успешно скопирован!</div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
