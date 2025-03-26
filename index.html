@@ -79,7 +79,8 @@
       }
       .mode-toggle,
       .theme-toggle,
-      .download-btn {
+      .download-btn,
+      .language-toggle {
         margin-top: 15px;
         padding: 12px;
         font-size: 1.2em;
@@ -92,7 +93,8 @@
       }
       .theme-toggle:hover,
       .mode-toggle:hover,
-      .download-btn:hover {
+      .download-btn:hover,
+      .language-toggle:hover {
         background: rgba(255, 255, 255, 0.5);
       }
       .light-mode {
@@ -174,8 +176,17 @@
     </style>
   </head>
   <body>
-    <div class="brand">KalkulatorX</div>
-    <button class="theme-toggle" onclick="toggleTheme()">Сменить тему</button>
+    <div class="brand" id="brand"></div>
+    <button
+      class="theme-toggle"
+      onclick="toggleTheme()"
+      id="themeToggle"
+    ></button>
+    <button
+      class="language-toggle"
+      onclick="toggleLanguage()"
+      id="languageToggle"
+    ></button>
     <div class="calculator">
       <div id="display"></div>
       <div class="buttons">
@@ -196,9 +207,6 @@
         <button onclick="calculateResult()">=</button>
         <button onclick="appendToDisplay('/')">÷</button>
       </div>
-      <button class="mode-toggle" onclick="toggleMode()">
-        Переключить режим
-      </button>
     </div>
 
     <!-- Кнопка скачивания -->
@@ -206,19 +214,18 @@
       href="https://drive.google.com/file/d/1Z9DMiKe4PJ0ffBvu6IGCfp4ZVZfYrhS4/view?usp=sharing"
       target="_blank"
       class="download-btn"
-    >
-      Скачать KalkulatorX для ПК
-    </a>
+      id="downloadBtn"
+    ></a>
 
     <!-- Проверка на вирусы -->
     <div class="verified">
       <input type="checkbox" checked disabled />
-      <span>Проверено на вирусы</span>
+      <span id="virusCheck"></span>
     </div>
 
     <!-- Права -->
     <div class="footer-wrapper">
-      <p class="footer">© 2025 KalkulatorX. Все права защищены.</p>
+      <p class="footer" id="footer"></p>
     </div>
 
     <!-- Скример -->
@@ -237,6 +244,35 @@
       ); // Звук крика
       screamSound.volume = 1;
 
+      const translations = {
+        ru: {
+          theme: "Сменить тему",
+          language: "Язык",
+          download: "Скачать KalkulatorX для ПК",
+          footer: "© 2025 KalkulatorX. Все права защищены.",
+          virusCheck: "Проверено на вирусы",
+          brand: "KalkulatorX",
+        },
+        pl: {
+          theme: "Zmień motyw",
+          language: "Język",
+          download: "Pobierz KalkulatorX dla PC",
+          footer: "© 2025 KalkulatorX. Wszelkie prawa zastrzeżone.",
+          virusCheck: "Sprawdzone pod kątem wirusów",
+          brand: "KalkulatorX",
+        },
+        en: {
+          theme: "Change Theme",
+          language: "Language",
+          download: "Download KalkulatorX for PC",
+          footer: "© 2025 KalkulatorX. All rights reserved.",
+          virusCheck: "Checked for viruses",
+          brand: "KalkulatorX",
+        },
+      };
+
+      let currentLanguage = "ru"; // Стартовый язык
+
       function appendToDisplay(value) {
         document.getElementById("display").innerText += value;
         playClickSound();
@@ -254,7 +290,7 @@
             document.getElementById("display").innerText.replace("^", "**")
           );
         } catch {
-          alert("Ошибка в выражении");
+          alert(getTranslation("Ошибка в выражении"));
           clearDisplay();
         }
       }
@@ -283,10 +319,35 @@
         }, 10000);
       }
 
-      function toggleMode() {
-        mode = mode === 1 ? 2 : 1;
-        alert(`Переключен режим: ${mode === 1 ? "Телефон" : "Компьютер"}`);
+      function toggleLanguage() {
+        if (currentLanguage === "ru") {
+          currentLanguage = "pl";
+        } else if (currentLanguage === "pl") {
+          currentLanguage = "en";
+        } else {
+          currentLanguage = "ru";
+        }
+        updateLanguage();
       }
+
+      function updateLanguage() {
+        document.querySelector(".theme-toggle").innerText =
+          getTranslation("theme");
+        document.querySelector(".language-toggle").innerText =
+          getTranslation("language");
+        document.querySelector(".download-btn").innerText =
+          getTranslation("download");
+        document.querySelector(".footer").innerText = getTranslation("footer");
+        document.querySelector("#virusCheck").innerText =
+          getTranslation("virusCheck");
+        document.querySelector(".brand").innerText = getTranslation("brand");
+      }
+
+      function getTranslation(key) {
+        return translations[currentLanguage][key];
+      }
+
+      updateLanguage(); // Инициализация перевода при загрузке страницы
     </script>
   </body>
 </html>
